@@ -3,6 +3,7 @@ package com.example.android2_project.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,12 +39,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
+    private ImageButton btRegister;
+    private TextView tvLogin;
 
 
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -68,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //initialize firestore instance
         initializeCloudFirebaseInstance();
+        //go to the resgister form
+        btRegister  = findViewById(R.id.btRegister);
+        tvLogin     = findViewById(R.id.tvLogin);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -96,6 +104,16 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void onClick(View v) {
+        if (v==btRegister){
+            Intent intent   = new Intent(LoginActivity.this,RegisterActivity.class);
+            Pair[] pairs    = new Pair[1];
+            pairs[0] = new Pair<View,String>(tvLogin,"tvLogin");
+            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
+            startActivity(intent,activityOptions.toBundle());
+        }
     }
 
     private void initializeCloudFirebaseInstance()
@@ -312,8 +330,6 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
-
-
     }
 }
 
