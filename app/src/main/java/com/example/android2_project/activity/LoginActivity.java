@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToMapsView()
     {
-        Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+        Intent intent = new Intent(LoginActivity.this, Main2Activity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

@@ -10,66 +10,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff0e0138-ea11-4bf2-8412-a049ecc43131" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/res/anim/uptodowndiagonal.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-hdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-hdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-hdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-ldpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-ldpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-ldpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-mdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-mdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-mdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-v24/bt_uifb.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xhdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxxhdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxxhdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxxhdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/bg_ui.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/circle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/circletransparant.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-hdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-hdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-hdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-ldpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-ldpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-ldpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-mdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-mdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-mdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-v24/bt_uifb.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xhdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xhdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xhdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xxhdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xxhdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xxhdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xxxhdpi/header_login.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xxxhdpi/header_register.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable-xxxhdpi/logofacebook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable/bg_ui.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable/circle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable/circletransparant.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable/ic_add.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_add.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/Main2Activity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/bg_nav.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_menu_camera.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_menu_gallery.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_menu_manage.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_menu_send.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_menu_share.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_menu_slideshow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/side_nav_bar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/app_bar_main2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/content_main2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/nav_header_main2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/menu/activity_main2_drawer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/menu/main2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/RegisterActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_register.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -106,44 +70,102 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/RegisterActivity.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/Main2Activity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1802">
-              <caret line="144" selection-start-line="144" selection-end-line="144" />
+            <state relative-caret-position="277">
+              <caret line="93" column="44" selection-start-line="93" selection-start-column="44" selection-end-line="93" selection-end-column="44" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/LoginActivity.java">
+        <entry file="file://$PROJECT_DIR$/src/main/res/menu/activity_main2_drawer.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="77" column="35" selection-start-line="77" selection-start-column="35" selection-end-line="77" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_register.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="85" column="52" selection-start-line="85" selection-start-column="52" selection-end-line="85" selection-end-column="52" />
+            <state relative-caret-position="204">
+              <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
             </state>
           </provider>
           <provider editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_login.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/nav_header_main2.xml">
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="1564">
-              <caret line="92" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="340">
+              <caret line="20" column="48" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="48" />
             </state>
           </provider>
           <provider selected="true" editor-type-id="android-designer2" />
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/app_bar_main2.xml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="142">
+              <caret line="17" column="41" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="41" />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_main2.xml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="15" column="49" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/res/drawable/side_nav_bar.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="92" selection-start-line="2" selection-start-column="92" selection-end-line="2" selection-end-column="92" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/drawable/bg_nav.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/drawable/bg_ui.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="38">
+              <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/drawable-hdpi/header_login.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="resourceFile" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>goToMapsView</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -157,17 +179,25 @@
         <option value="$PROJECT_DIR$/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_register.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/menu/activity_main2_drawer.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/RegisterActivity.java" />
         <option value="$PROJECT_DIR$/src/main/res/layout/activity_login.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/src/main/res/layout/activity_register.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/Main2Activity.java" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/app_bar_main2.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/drawable/bg_ui.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_main2.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/drawable/bg_nav.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/drawable/side_nav_bar.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="y" value="-12" />
-    <option name="width" value="1152" />
-    <option name="height" value="1032" />
+    <option name="x" value="21" />
+    <option name="width" value="1947" />
+    <option name="height" value="948" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -318,11 +348,6 @@
             <path>
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
-            </path>
-            <path>
-              <item name="app" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
             </path>
             <path>
@@ -347,13 +372,19 @@
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="anim" type="ddeffd01:AndroidResFolderTypeNode" />
+              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
               <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="app" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="menu" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="app" type="1abcf292:AndroidViewProjectNode" />
@@ -420,10 +451,16 @@
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="device.picker.selection" value="2af729f19805" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/ANDROIDVIKKY/ANDR2" />
+    <property name="last_opened_file_path" value="$USER_HOME$/AndroidStudioProjects/FHICTCompanionApp" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
+    <key name="android.template.packageName">
+      <recent name="com.example.android2_project.activity" />
+    </key>
+    <key name="android.template.parentActivityClass">
+      <recent name="" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Ann\Desktop\ANDROID2\peace_android-\app\src\main\res" />
       <recent name="C:\Users\Ann\Desktop\ANDROID2\peace_android-\app\src\main\res\drawable" />
@@ -529,14 +566,15 @@
       <window_info id="Designer" order="6" />
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.65587044" weight="0.3285968" />
+      <window_info anchor="bottom" id="Find" />
+      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.65587044" weight="0.3321492" />
       <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.7392713" weight="0.40674955" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" />
       <window_info anchor="bottom" id="Terminal" order="4" sideWeight="0.49878544" weight="0.3285968" />
       <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.4097166" side_tool="true" weight="0.27353463" />
       <window_info anchor="bottom" id="Version Control" order="6" weight="0.3285968" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.5902834" weight="0.27353463" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.5902834" visible="true" weight="0.27353463" />
       <window_info anchor="bottom" id="Android Profiler" order="8" />
       <window_info anchor="right" id="Preview" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
@@ -548,7 +586,7 @@
     </layout>
     <layout-to-restore>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.32955465" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.32955465" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -556,21 +594,22 @@
       <window_info id="Designer" order="6" />
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.49878544" visible="true" weight="0.3285968" />
+      <window_info anchor="bottom" id="Run" order="0" sideWeight="0.65587044" weight="0.3285968" />
       <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.7392713" weight="0.40674955" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" />
       <window_info anchor="bottom" id="Terminal" order="4" sideWeight="0.49878544" weight="0.3285968" />
-      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.26072875" side_tool="true" weight="0.40674955" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.4097166" side_tool="true" weight="0.27353463" />
       <window_info anchor="bottom" id="Version Control" order="6" weight="0.3285968" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49878544" weight="0.27353463" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.5902834" weight="0.27353463" />
       <window_info anchor="bottom" id="Android Profiler" order="8" />
-      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Gradle" order="2" weight="0.32955465" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Assistant" order="5" weight="0.32955465" />
+      <window_info anchor="right" id="Preview" order="0" />
+      <window_info anchor="right" id="Device File Explorer" order="1" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="2" />
+      <window_info anchor="right" id="Gradle" order="3" weight="0.32955465" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info anchor="right" id="Assistant" order="6" weight="0.32955465" />
     </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
@@ -578,13 +617,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
           <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -615,24 +647,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="55" column="54" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -643,35 +657,198 @@
     <entry file="file://$PROJECT_DIR$/src/main/res/anim/uptodowndiagonal.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/RegisterActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1802">
-          <caret line="144" selection-start-line="144" selection-end-line="144" />
+        <state relative-caret-position="-17">
+          <caret line="21" column="64" lean-forward="true" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/ic_menu_gallery.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/ic_menu_manage.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/ic_menu_camera.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/ic_menu_share.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/ic_menu_slideshow.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="29" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="29" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="41" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="41" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-958">
+          <caret line="194" column="68" selection-start-line="194" selection-start-column="68" selection-end-line="194" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/RegisterActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="147" column="12" selection-start-line="147" selection-start-column="12" selection-end-line="150" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_maps.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable-mdpi/header_login.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable-xhdpi/header_login.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable-xxhdpi/header_login.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable-ldpi/header_login.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_register.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="158" column="51" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="51" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_login.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="37" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/content_main2.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/MapsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-60">
+          <caret line="20" column="50" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/Main2Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="93" column="44" selection-start-line="93" selection-start-column="44" selection-end-line="93" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/menu/main2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/menu/activity_main2_drawer.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/nav_header_main2.xml">
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="1564">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        <state relative-caret-position="340">
+          <caret line="20" column="48" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="48" />
         </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/android2_project/activity/LoginActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/app_bar_main2.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="17" column="41" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="41" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable-hdpi/header_login.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_main2.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="15" column="49" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/bg_nav.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="77" column="35" selection-start-line="77" selection-start-column="35" selection-end-line="77" selection-end-column="35" />
+        <state relative-caret-position="221">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_register.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/bg_ui.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="85" column="52" selection-start-line="85" selection-start-column="52" selection-end-line="85" selection-end-column="52" />
+        <state relative-caret-position="38">
+          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/drawable/side_nav_bar.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="92" selection-start-line="2" selection-start-column="92" selection-end-line="2" selection-end-column="92" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
