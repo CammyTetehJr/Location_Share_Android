@@ -29,8 +29,11 @@ import com.example.android2_project.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderApi;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,8 +62,9 @@ public class Main2Activity extends AppCompatActivity
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
     private Marker marker;
-    private FusedLocationProviderApi fusedLocationProviderApi;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
 
     // Reference to the root of the database
     DatabaseReference RootRef;
@@ -97,7 +101,7 @@ public class Main2Activity extends AppCompatActivity
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        fusedLocationProviderApi = LocationServices.FusedLocationApi;
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(10000);
@@ -110,7 +114,29 @@ public class Main2Activity extends AppCompatActivity
                     .addApi(LocationServices.API)
                     .build();
         }
-    }
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    // Update UI with location data
+                    // ...
+                    latitudeRef.setValue(location.getLatitude());
+                    longitudeRef.setValue(location.getLongitude());
+                }
+            }
+        };
+
+
+        }
+
+
+
+
+
 
     @Override
     protected void onStart() {
@@ -221,7 +247,7 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+            fusedLocationProviderClient.requestLocationUpdates( locationRequest,locationCallback, this.getMainLooper());
         }
         else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MAP_PERMISSION);
