@@ -1,7 +1,11 @@
 package com.example.android2_project.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android2_project.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
     EditText password;
     Button register;
 
+    //for getting users location
+    private FusedLocationProviderClient fusedLocationClient;
+    //location variable
+    private Location userLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +64,30 @@ public class RegisterActivity extends AppCompatActivity {
         initializeCloudFirebaseInstance();
         //initialize collection
         users = db.collection("users");
+        //initialize fusedLocationClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        //get the last location
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            userLocation = location;
+                        }
+                    }
+                });
         //get views
         firstname = findViewById(R.id.firstname);
         lastname = findViewById(R.id.lastname);
@@ -78,8 +113,9 @@ public class RegisterActivity extends AppCompatActivity {
         final Map<String, Object>[] user = new Map[]{new HashMap<>()};
         user[0].put("first", first.getText().toString());
         user[0].put("last", last.getText().toString());
-//        user.put("email", email.getText().toString());
-//        user.put("password", password.getText().toString());
+        user[0].put("latitude",userLocation.getLatitude());
+        user[0].put("longitude",userLocation.getLongitude());
+
 
         //create user with email as document reference id
         users.document(email.getText().toString()).set(user[0]).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -96,25 +132,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.w("add user failure", "Error adding document", e);
                     }
                 });
-
-
-        // Add a new document with a generated ID
-//        db.collection("users")
-//                .add(user)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d("add user success", "DocumentSnapshot added with ID: " + documentReference.getId());
-//                        //go to maps view
-//                        goToMapsView();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w("add user failure", "Error adding document", e);
-//                    }
-//                });
 
 
 

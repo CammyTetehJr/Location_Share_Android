@@ -37,4 +37,9 @@ public class User {
         this.lastname = lastname;
         this.location = null;
     }
+
+    public User()
+    {
+
+    }
 }

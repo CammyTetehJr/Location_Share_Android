@@ -80,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.addMarker(new MarkerOptions().position(userLocation).title("Marker in User Location"));
                             mMap.getMaxZoomLevel();
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
                         }
                         System.out.println("location: " +location);
                     }
