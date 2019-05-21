@@ -111,6 +111,9 @@ public class Main2Activity extends AppCompatActivity
     //list of other Latlng
     List<LatLng> allOtherLocations = new ArrayList<LatLng>();
 
+    //list of other users name
+    List<String> otherUsersName = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -223,6 +226,7 @@ public class Main2Activity extends AppCompatActivity
            @Override
            public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
                allOtherLocations.clear();
+               otherUsersName.clear();
                if (e != null) {
                    Log.w("listen to other users", "Listen failed.", e);
                    return;
@@ -246,7 +250,8 @@ public class Main2Activity extends AppCompatActivity
                        if (name != userName){
                            LatLng latLng = new LatLng(Latitude,Longitude);
                            allOtherLocations.add(latLng);
-                           drawOtherUsersPosition(allOtherLocations,name);
+                           otherUsersName.add(name);
+                           drawOtherUsersPosition(allOtherLocations);
                        }
 
                    }
@@ -372,21 +377,25 @@ public class Main2Activity extends AppCompatActivity
 //        super.onStart();
     }
 
-    private void drawOtherUsersPosition(List<LatLng> allOtherLocations,String name)
+    private void drawOtherUsersPosition(List<LatLng> allOtherLocations)
     {
         map.clear();
+        int count = 0;
         for (LatLng latLng: allOtherLocations)
         {
             if (latLng != null) {
                 // Logic to handle location object
                 LatLng userLocation = latLng;
                 // Add a marker in User Location and move the camera
+                    String name = otherUsersName.get(count);
+                    map.addMarker(new MarkerOptions().position(new LatLng(userLocation.latitude,userLocation.longitude)).title(name));
+                    count++;
+                    //Log.d("drawn other users", "drawOtherUsersPosition: " + name);
+                    System.out.println("location: " +latLng);
 
 
-                map.addMarker(new MarkerOptions().position(new LatLng(userLocation.latitude,userLocation.longitude)).title(name));
-                Log.d("drawn other users", "drawOtherUsersPosition: ");
-                System.out.println("location: " +latLng);
-        }
+            }
+
 
 
 //            map.getMaxZoomLevel();
