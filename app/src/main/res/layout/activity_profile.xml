@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".model.Profile">
+
+
+    <View
+        android:id="@+id/guidline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/guidline"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/header_register" />
+
+    <ImageView
+        android:id="@+id/ellipse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ellipse"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="-100dp"
+        android:layout_marginBottom="-100dp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/tvFullName"
+        android:layout_centerHorizontal="true"
+        android:src="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tvFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="Your Name"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="youremail@gmail.com"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_below="@+id/guidline">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="First Name:"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+
+            <TextView
+                android:id="@+id/resultFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Victoria"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/tvDesc"
+                android:layout_alignLeft="@+id/tvDesc"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:id="@+id/tvMyArticle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/resultFirstName"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="Last Name"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+
+            <TextView
+                android:id="@+id/resultLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Soilita "
+                android:layout_marginTop="70dp"
+                android:layout_below="@+id/tvDesc"
+                android:layout_alignLeft="@+id/tvDesc"
+                android:layout_marginRight="20dp"/>
+
+            <Button
+                android:id="@+id/email_sign_in_button"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@drawable/bg_ui"
+                android:text="Edit Profile"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

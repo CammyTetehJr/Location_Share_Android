@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.android2_project.R;
+import com.example.android2_project.model.Profile;
 import com.example.android2_project.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -480,7 +481,7 @@ public class Main2Activity extends AppCompatActivity
         map.getUiSettings().setZoomControlsEnabled(true);
         map.isBuildingsEnabled();
         map.getUiSettings().setIndoorLevelPickerEnabled(true);
-        map.setMyLocationEnabled(true);
+        //map.setMyLocationEnabled(true);
         map.getUiSettings().setIndoorLevelPickerEnabled(true);
     }
 
@@ -563,10 +564,12 @@ public class Main2Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentActivity fragment = null;
-        Intent intent = new Intent();
+        Intent intent;
         if (id == R.id.nav_profile) {
-            // Handle the camera action
-
+            intent = new Intent(Main2Activity.this, Profile.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         } else if (id == R.id.nav_map) {
 //            Intent intent = new Intent(Main2Activity.this, MapsActivity.class);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
