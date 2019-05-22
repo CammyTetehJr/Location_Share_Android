@@ -1,35 +1,28 @@
 package com.example.android2_project.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
-
-
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import com.example.android2_project.R;
 import com.example.android2_project.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
@@ -49,22 +42,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,11 +71,6 @@ public class Main2Activity extends AppCompatActivity
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
 
-    // Reference to the root of the database
-    DatabaseReference RootRef;
-    DatabaseReference latitudeRef;
-    DatabaseReference longitudeRef;
-    DatabaseReference locationsRef;
 
     //Reference to User's Document in Database
     DocumentReference docRef;
@@ -114,6 +97,11 @@ public class Main2Activity extends AppCompatActivity
     //list of other users name
     List<String> otherUsersName = new ArrayList<>();
 
+    //reference of user's location
+    Location myLocation = null;
+    //reference of user's latnl
+    LatLng userLatLng = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,28 +122,18 @@ public class Main2Activity extends AppCompatActivity
 
         //initialize db
         db = FirebaseFirestore.getInstance();
-        //gets the users from db
-        //users = new CollectionReference()
-
-//        RootRef = FirebaseDatabase.getInstance().getReference();
-//        latitudeRef = RootRef.child("locations").child(currentUser.getUid()).child("latitude");
-//        longitudeRef = RootRef.child("locations").child(currentUser.getUid()).child("longitude");
-//        locationsRef = RootRef.child("locations");
         String email = currentUser.getEmail();
         Log.d("user email", "onCreate: " + currentUser.getEmail());
 
         //gets reference to user's document
         docRef = db.collection("users").document(email);
-
-
-
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-           @Override
-           public void onSuccess(DocumentSnapshot documentSnapshot) {
-               user = documentSnapshot.toObject(User.class);
-               userName = user.getFirstname();
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d("got users email", "onSuccess: ");
+
             }
-      });
+        });
 
 
 
@@ -191,100 +169,122 @@ public class Main2Activity extends AppCompatActivity
                     data.put("longitude",location.getLongitude());
                     docRef.set(data, SetOptions.merge());
 
-//                    latitudeRef.setValue(location.getLatitude());
-//                    longitudeRef.setValue(location.getLongitude());
                 }
             }
         };
 
 
-        }
+    }
 
-        private void initializeCollectionOfUsers()
-        {
-            db.collection("users")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d("success getting users collection", document.getId() + " => " + document.getData());
-                                }
-                            } else {
-                                Log.w("error getting users collection", "Error getting documents.", task.getException());
+    private void initializeCollectionOfUsers()
+    {
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("success getting users", document.getId() + " => " + document.getData());
                             }
+                        } else {
+                            Log.w("error getting users", "Error getting documents.", task.getException());
                         }
-                    });
-        }
+                    }
+                });
+    }
 
 
-   private void listenToOtherUsers()
-   {
-       initializeCollectionOfUsers();
-       db.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
-           @Override
-           public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
-               allOtherLocations.clear();
-               otherUsersName.clear();
-               if (e != null) {
-                   Log.w("listen to other users", "Listen failed.", e);
-                   return;
-               }
-               if (!queryDocumentSnapshots.isEmpty())
-               {
-                   List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
-                   Log.d("", "onEvent: document snapshot" + documentSnapshots.size() + documentSnapshots);
-                   for (DocumentSnapshot snapshot: documentSnapshots)
-                   {
-                       if (snapshot.getDouble("latitude") == null && snapshot.getDouble("longitude") == null)
-                       {
-                           return;
-                       }
-                       double Latitude = snapshot.getDouble("latitude");
-                       Log.d("", "onEvent: document snapshot" + Latitude);
-                       double Longitude = snapshot.getDouble("longitude");
-                       Log.d("", "onEvent: document snapshot" + Longitude);
+    private void listenToOtherUsers()
+    {
+        initializeCollectionOfUsers();
+        db.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+                allOtherLocations.clear();
+                otherUsersName.clear();
+                if (e != null) {
+                    Log.w("listen to other users", "Listen failed.", e);
+                    return;
+                }
+                if (!queryDocumentSnapshots.isEmpty())
+                {
+                    List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
+                    Log.d("", "onEvent: document snapshot" + documentSnapshots.size() + documentSnapshots);
+                    Log.d("at doc snapshop", "onEvent: username is" + userName);
+                    for (DocumentSnapshot snapshot: documentSnapshots)
+                    {
+                        if (snapshot.getDouble("latitude") != null && snapshot.getDouble("longitude") != null )
+                        {
+                            double Latitude = snapshot.getDouble("latitude");
+                            Log.d("", "onEvent: document snapshot" + Latitude);
+                            double Longitude = snapshot.getDouble("longitude");
+                            Log.d("", "onEvent: document snapshot" + Longitude);
 
-                       String name = snapshot.getString("first");
-                       if (name != userName){
-                           LatLng latLng = new LatLng(Latitude,Longitude);
-                           allOtherLocations.add(latLng);
-                           otherUsersName.add(name);
-                           drawOtherUsersPosition(allOtherLocations);
-                       }
+                            String name = snapshot.getString("first");
+                            if(name.equals(userName))
+                            {
+                                name = "My Location";
+                            }
 
-                   }
-               }
-           }
-       });
-   }
+                            LatLng latLng = new LatLng(Latitude,Longitude);
+                            DecimalFormat f = new DecimalFormat("##.00");
+                            double distance = Double.parseDouble(f.format(getDistanceBetweenTwoPoints(userLatLng.latitude,userLatLng.longitude,latLng.latitude, latLng.longitude)/1000));
 
-   private void listenToMe()
-   {
-       //listener for my position
-       docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-           @Override
-           public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-               if (e != null) {
-                   Log.w("onStart", "Listen failed.", e);
-                   return;
-               }
-               if (documentSnapshot.exists())
-               {
-                   Double Latitude = Double.valueOf(documentSnapshot.getDouble("latitude"));
-                   Double Longitude = Double.valueOf(documentSnapshot.getDouble("longitude"));
-
-                   LatLng latLng = new LatLng(Latitude,Longitude);
-                   //draw new position
-                   drawMyPosition(latLng);
-
-               }
+                            allOtherLocations.add(latLng);
+                            otherUsersName.add(name + " " + distance + " km away");
+                            drawOtherUsersPosition(allOtherLocations);
 
 
-           }
-       });
-   }
+                        }
+
+                    }
+                }
+            }
+        });
+    }
+    private float getDistanceBetweenTwoPoints(double lat1,double lon1,double lat2,double lon2) {
+
+        float[] distance = new float[2];
+
+        Location.distanceBetween( lat1, lon1,
+                lat2, lon2, distance);
+
+        return distance[0];
+    }
+
+
+    private void listenToMe()
+    {
+        //listener for my position
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("onStart", "Listen failed.", e);
+                    return;
+                }
+                if (documentSnapshot.exists())
+                {
+                    Double Latitude = Double.valueOf(documentSnapshot.getDouble("latitude"));
+                    Double Longitude = Double.valueOf(documentSnapshot.getDouble("longitude"));
+                    userName = documentSnapshot.getString("first");
+                    Log.d("my username is" + userName, "onEvent: ");
+
+                    LatLng latLng = new LatLng(Latitude,Longitude);
+                    userLatLng = latLng;
+                    myLocation = new Location("myLocation");
+                    myLocation.setLatitude(Latitude);
+                    myLocation.setLongitude(Longitude);
+                    //draw new position
+                    drawMyPosition(latLng,userName);
+
+                }
+
+
+            }
+        });
+    }
 
 
     @Override
@@ -387,36 +387,26 @@ public class Main2Activity extends AppCompatActivity
                 // Logic to handle location object
                 LatLng userLocation = latLng;
                 // Add a marker in User Location and move the camera
-                    String name = otherUsersName.get(count);
+                String name = otherUsersName.get(count);
+                if(name != userName)
+                {
                     map.addMarker(new MarkerOptions().position(new LatLng(userLocation.latitude,userLocation.longitude)).title(name));
                     count++;
-                    //Log.d("drawn other users", "drawOtherUsersPosition: " + name);
-                    System.out.println("location: " +latLng);
+                    Log.d("drawn other users", "drawOtherUsersPosition: " + name);
+                    System.out.println("location: " +latLng + " other users count " + allOtherLocations.size());
+                }
+
 
 
             }
 
 
 
-//            map.getMaxZoomLevel();
-//            map.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-//
-
-//            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude, location.longitude), 13));
-//
-//            CameraPosition cameraPosition = new CameraPosition.Builder()
-//                    .target(new LatLng(location.latitude, location.longitude))      // Sets the center of the map to location user
-//                    .zoom(8)                   // Sets the zoom
-//                    .bearing(90)                // Sets the orientation of the camera to east
-//                    .tilt(40)                   // Sets the tilt of the camera to 30 degrees
-//                    .build();                   // Creates a CameraPosition from the builder
-//            map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
         }
 
     }
 
-    private void drawMyPosition(LatLng location)
+    private void drawMyPosition(LatLng location,String userName)
     {
         map.clear();
         if (location != null) {
@@ -424,11 +414,7 @@ public class Main2Activity extends AppCompatActivity
             LatLng userLocation = location;
             // Add a marker in User Location and move the camera
 
-            map.addMarker(new MarkerOptions().position(userLocation).title("Marker in User Location"));
-//            map.getMaxZoomLevel();
-//            map.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-//
-
+            map.addMarker(new MarkerOptions().position(userLocation).title(userName));
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude, location.longitude), 13));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -438,9 +424,10 @@ public class Main2Activity extends AppCompatActivity
                     .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            System.out.println("location: I just drew myself at " +location);
 
         }
-        System.out.println("location: " +location);
+
     }
 
     @Override
@@ -449,20 +436,20 @@ public class Main2Activity extends AppCompatActivity
         super.onStop();
     }
 
-    public Double getDistanceBetweenTwoPoints(Double latitude1, Double longitude1, Double latitude2, Double longitude2){
-        final int RADIUS_EARTH = 6371;
+//    public Double getDistanceBetweenTwoPoints(Double latitude1, Double longitude1, Double latitude2, Double longitude2){
+//        final int RADIUS_EARTH = 6371;
+//
+//        double dLatitude = getRad(latitude2 - latitude1);
+//        double dLongitude = getRad(longitude2 - longitude1);
+//
+//        double a = Math.sin(dLatitude / 2) * Math.sin(dLatitude / 2) + Math.cos(getRad(latitude1)) * Math.cos(getRad(latitude2)) * Math.sin(dLongitude / 2) * Math.sin(dLongitude / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        return (RADIUS_EARTH * c) * 1000;
+//    }
 
-        double dLatitude = getRad(latitude2 - latitude1);
-        double dLongitude = getRad(longitude2 - longitude1);
-
-        double a = Math.sin(dLatitude / 2) * Math.sin(dLatitude / 2) + Math.cos(getRad(latitude1)) * Math.cos(getRad(latitude2)) * Math.sin(dLongitude / 2) * Math.sin(dLongitude / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return (RADIUS_EARTH * c) * 1000;
-    }
-
-    private Double getRad(double x) {
-        return x * Math.PI / 180;
-    }
+//    private Double getRad(double x) {
+//        return x * Math.PI / 180;
+//    }
 
 
     @Override
@@ -510,7 +497,7 @@ public class Main2Activity extends AppCompatActivity
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MAP_PERMISSION);
         }
     }
-// menu code
+    // menu code
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
