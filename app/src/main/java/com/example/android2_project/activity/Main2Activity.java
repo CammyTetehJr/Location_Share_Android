@@ -1,9 +1,11 @@
 package com.example.android2_project.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -18,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.android2_project.R;
 import com.example.android2_project.model.User;
@@ -230,10 +233,13 @@ public class Main2Activity extends AppCompatActivity
                             LatLng latLng = new LatLng(Latitude,Longitude);
                             DecimalFormat f = new DecimalFormat("##.00");
                             double distance = Double.parseDouble(f.format(getDistanceBetweenTwoPoints(userLatLng.latitude,userLatLng.longitude,latLng.latitude, latLng.longitude)/1000));
+                            //alert if close
+                            alertProximity(distance,name);
 
                             allOtherLocations.add(latLng);
                             otherUsersName.add(name + " " + distance + " km away");
                             drawOtherUsersPosition(allOtherLocations);
+
 
 
                         }
@@ -243,6 +249,16 @@ public class Main2Activity extends AppCompatActivity
             }
         });
     }
+
+    private void alertProximity(double distance, String name)
+    {
+        if (distance < 100){
+            Toast.makeText(getApplicationContext(), name + " is close", Toast.LENGTH_LONG).show();
+            Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vibe.vibrate(300);
+        }
+    }
+
     private float getDistanceBetweenTwoPoints(double lat1,double lon1,double lat2,double lon2) {
 
         float[] distance = new float[2];
