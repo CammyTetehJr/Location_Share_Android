@@ -36,6 +36,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -104,6 +105,9 @@ public class Main2Activity extends AppCompatActivity
     Location myLocation = null;
     //reference of user's latnl
     LatLng userLatLng = null;
+
+    private Marker meMarker;
+    private Marker otherMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,8 +244,6 @@ public class Main2Activity extends AppCompatActivity
                             otherUsersName.add(name + " " + distance + " km away");
                             drawOtherUsersPosition(allOtherLocations);
 
-
-
                         }
 
                     }
@@ -262,10 +264,8 @@ public class Main2Activity extends AppCompatActivity
     private float getDistanceBetweenTwoPoints(double lat1,double lon1,double lat2,double lon2) {
 
         float[] distance = new float[2];
-
         Location.distanceBetween( lat1, lon1,
                 lat2, lon2, distance);
-
         return distance[0];
     }
 
@@ -302,7 +302,6 @@ public class Main2Activity extends AppCompatActivity
         });
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -311,7 +310,6 @@ public class Main2Activity extends AppCompatActivity
 
         //listener for my position
         listenToMe();
-
 
         //listener for other users
         listenToOtherUsers();
@@ -406,7 +404,11 @@ public class Main2Activity extends AppCompatActivity
                 String name = otherUsersName.get(count);
                 if(name != userName)
                 {
-                    map.addMarker(new MarkerOptions().position(new LatLng(userLocation.latitude,userLocation.longitude)).title(name));
+                    otherMarker = map.addMarker(new MarkerOptions()
+                            .position(new LatLng(userLocation.latitude,userLocation.longitude))
+                            .title(name)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    otherMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                     count++;
                     Log.d("drawn other users", "drawOtherUsersPosition: " + name);
                     System.out.println("location: " +latLng + " other users count " + allOtherLocations.size());
@@ -430,7 +432,11 @@ public class Main2Activity extends AppCompatActivity
             LatLng userLocation = location;
             // Add a marker in User Location and move the camera
 
-            map.addMarker(new MarkerOptions().position(userLocation).title(userName));
+            meMarker = map.addMarker(new MarkerOptions()
+                    .position(userLocation)
+                    .title(userName)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            meMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.latitude, location.longitude), 13));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -471,6 +477,11 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        map.getUiSettings().setZoomControlsEnabled(true);
+        map.isBuildingsEnabled();
+        map.getUiSettings().setIndoorLevelPickerEnabled(true);
+        map.setMyLocationEnabled(true);
+        map.getUiSettings().setIndoorLevelPickerEnabled(true);
     }
 
     @Override

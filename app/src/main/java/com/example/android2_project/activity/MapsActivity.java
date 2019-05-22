@@ -65,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+            mMap.setMyLocationEnabled(true);
             return;
         }
         System.out.println("location is:" + fusedLocationClient.getLastLocation());
@@ -80,7 +81,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.addMarker(new MarkerOptions().position(userLocation).title("Marker in User Location"));
                             mMap.getMaxZoomLevel();
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
-
+                            mMap.isBuildingsEnabled();
+                            mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
+                            mMap.getUiSettings().setZoomControlsEnabled(true);
                         }
                         System.out.println("location: " +location);
                     }
