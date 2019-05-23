@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen">
+        <activity android:name=".EditProfile"></activity>
         <activity android:name=".model.Profile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
