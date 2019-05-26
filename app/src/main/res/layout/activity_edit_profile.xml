@@ -1,9 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfile">
+    tools:context=".activity.EditProfile">
+    <View
+        android:id="@+id/guidline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_left_arrow"
+        android:onClick="onBackEvent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/guidline"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/header_register" />
+
+    <ImageView
+        android:id="@+id/ellipse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ellipse"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="-100dp"
+        android:layout_marginBottom="-100dp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/tvFullName"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_edituser" />
+
+    <TextView
+        android:id="@+id/tvFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnChoose"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="Your Name"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnChoose"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="Upload Photo"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/bg_ui"
+        android:textSize="12sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/guidline">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-30dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="First Name:"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="17dp"/>
+
+            <EditText
+                android:id="@+id/resultFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Victoria"
+                android:layout_marginTop="0dp"
+                android:inputType="text"
+                android:layout_below="@+id/tvDesc"
+                android:layout_alignLeft="@+id/tvDesc"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:id="@+id/tvMyArticle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/resultFirstName"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="Last Name"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textSize="17dp"/>
+
+            <EditText
+                android:id="@+id/resultLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Soilita "
+                android:layout_marginTop="70dp"
+                android:layout_below="@+id/tvDesc"
+                android:layout_alignLeft="@+id/tvDesc"
+                android:inputType="text"
+                android:layout_marginRight="20dp"/>
+
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="220dp"
+                android:layout_marginRight="80dp"
+                android:background="@drawable/bg_ui"
+                android:onClick="onBackEvent"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

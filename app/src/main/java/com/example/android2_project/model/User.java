@@ -7,6 +7,7 @@ public class User {
     private String firstname;
     private String lastname;
     private Location location;
+    public String url;
 
     public String getFirstname() {
         return firstname;
@@ -28,14 +29,19 @@ public class User {
         return location;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public void setLocation(Location location) {
         this.location = location;
     }
 
-    public User(String firstname, String lastname) {
+    public User(String firstname, String lastname, String url) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.location = null;
+        this.url = url;
     }
 
     public User()

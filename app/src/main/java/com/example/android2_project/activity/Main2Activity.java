@@ -1,5 +1,6 @@
 package com.example.android2_project.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,10 +21,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android2_project.R;
-import com.example.android2_project.model.Profile;
 import com.example.android2_project.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,6 +45,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -71,7 +74,6 @@ public class Main2Activity extends AppCompatActivity
     private static final int MAP_PERMISSION = 001;
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
-    private Marker marker;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
@@ -110,6 +112,13 @@ public class Main2Activity extends AppCompatActivity
     private Marker meMarker;
     private Marker otherMarker;
 
+    // for getting data in navigation drawer
+    private TextView fullName,tvemail,firstName,lastName;
+    String email;
+    String firstNameFS;
+    String lastNameFS;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,8 +138,8 @@ public class Main2Activity extends AppCompatActivity
         currentUser = auth.getCurrentUser();
 
         //initialize db
-        db = FirebaseFirestore.getInstance();
-        String email = currentUser.getEmail();
+        this.db = FirebaseFirestore.getInstance();
+        email = currentUser.getEmail();
         Log.d("user email", "onCreate: " + currentUser.getEmail());
 
         //gets reference to user's document
@@ -139,11 +148,14 @@ public class Main2Activity extends AppCompatActivity
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Log.d("got users email", "onSuccess: ");
-
+                getData();
             }
         });
 
-
+        //nav header view
+        View navheaderView = navigationView.getHeaderView(0);
+        fullName = navheaderView.findViewById(R.id.drawerName);
+        tvemail = navheaderView.findViewById(R.id.drawerEmail);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -176,11 +188,36 @@ public class Main2Activity extends AppCompatActivity
                     data.put("latitude", location.getLatitude());
                     data.put("longitude",location.getLongitude());
                     docRef.set(data, SetOptions.merge());
-
                 }
             }
         };
+    }
 
+    public void getData(){
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()){
+                            firstNameFS  = documentSnapshot.getString("first");
+                            lastNameFS  = documentSnapshot.getString("last");
+                            tvemail.setText(email);
+                            String result = firstNameFS + " " + lastNameFS;
+                            fullName.setText(result);
+                        }
+                        else{
+                            Toast.makeText(Main2Activity.this, "Not found", Toast.LENGTH_SHORT).show();
+                            Log.d("error", "onError: ");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Main2Activity.this, "Coundn't find", Toast.LENGTH_SHORT).show();
+                        Log.d("BIGERROR", "onError: ");
+                    }
+                });
 
     }
 
@@ -202,7 +239,6 @@ public class Main2Activity extends AppCompatActivity
                 });
     }
 
-
     private void listenToOtherUsers()
     {
         initializeCollectionOfUsers();
@@ -222,6 +258,7 @@ public class Main2Activity extends AppCompatActivity
                     Log.d("at doc snapshop", "onEvent: username is" + userName);
                     for (DocumentSnapshot snapshot: documentSnapshots)
                     {
+                        for (LatLng latLng : allOtherLocations) {
                         if (snapshot.getDouble("latitude") != null && snapshot.getDouble("longitude") != null )
                         {
                             double Latitude = snapshot.getDouble("latitude");
@@ -235,18 +272,17 @@ public class Main2Activity extends AppCompatActivity
                                 name = "My Location";
                             }
 
-                            LatLng latLng = new LatLng(Latitude,Longitude);
-                            DecimalFormat f = new DecimalFormat("##.00");
-                            double distance = Double.parseDouble(f.format(getDistanceBetweenTwoPoints(userLatLng.latitude,userLatLng.longitude,latLng.latitude, latLng.longitude)/1000));
-                            //alert if close
-                            alertProximity(distance,name);
+                                latLng = new LatLng(Latitude, Longitude);
+                                DecimalFormat f = new DecimalFormat("##.00");
+                                double distance = Double.parseDouble(f.format(getDistanceBetweenTwoPoints(userLatLng.latitude, userLatLng.longitude, latLng.latitude, latLng.longitude) / 1000));
+                                //alert if close
+                                alertProximity(distance, name);
 
-                            allOtherLocations.add(latLng);
-                            otherUsersName.add(name + " " + distance + " km away");
-                            drawOtherUsersPosition(allOtherLocations);
-
+                                allOtherLocations.add(latLng);
+                                otherUsersName.add(name + " " + distance + " km away");
+                                drawOtherUsersPosition(allOtherLocations);
+                            }
                         }
-
                     }
                 }
             }
@@ -255,15 +291,15 @@ public class Main2Activity extends AppCompatActivity
 
     private void alertProximity(double distance, String name)
     {
-        if (distance < 100){
+        if (distance < 100) {
             Toast.makeText(getApplicationContext(), name + " is close", Toast.LENGTH_LONG).show();
             Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             vibe.vibrate(300);
         }
     }
 
-    private float getDistanceBetweenTwoPoints(double lat1,double lon1,double lat2,double lon2) {
-
+    private float getDistanceBetweenTwoPoints(double lat1,double lon1,double lat2,double lon2)
+    {
         float[] distance = new float[2];
         Location.distanceBetween( lat1, lon1,
                 lat2, lon2, distance);
@@ -297,8 +333,6 @@ public class Main2Activity extends AppCompatActivity
                     drawMyPosition(latLng,userName);
 
                 }
-
-
             }
         });
     }
@@ -308,88 +342,10 @@ public class Main2Activity extends AppCompatActivity
         super.onStart();
         googleApiClient.connect();
         System.out.println("entering onStart");
-
         //listener for my position
         listenToMe();
-
         //listener for other users
         listenToOtherUsers();
-
-
-
-//        locationsRef.addValueEventListener(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(final DataSnapshot dataSnapshot) {
-//                if (!dataSnapshot.exists()) {
-//                    return;
-//                }
-//
-//                if (dataSnapshot.hasChildren()) {
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            map.clear();
-//                            List<LatLng> allOtherLocations = new ArrayList<LatLng>();
-//                            LatLng currentPosition = null;
-//                            String userEmail;
-//
-//                            for (DataSnapshot user : dataSnapshot.getChildren()) {
-//                                Log.d("comparrison stuff ", "user key: " + user.getKey().toString());
-//                                Log.d("comparrison stuff ", "currentUser key: " + currentUser.getUid().toString());
-//                                if (user.getKey().toString().equals(currentUser.getUid().toString())) {
-//
-//                                    Marker ownPosition = map.addMarker(new MarkerOptions()
-//                                            .position(new LatLng(user.child("latitude").getValue(Double.class),
-//                                                    user.child("longitude").getValue(Double.class))).title("Your location"));
-//                                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(ownPosition.getPosition(), 15));
-//
-//                                    currentPosition = new LatLng(user.child("latitude").getValue(Double.class), user.child("longitude").getValue(Double.class));
-//                                }
-//                                else {
-//                                    Log.d("stuff", user.child("latitude")
-//                                            .getValue(Double.class).toString());
-//                                    Log.d("stuff", user.child("longitude")
-//                                            .getValue(Double.class).toString());
-//
-//                                    map.addMarker(new MarkerOptions().position(new LatLng(user.child("latitude")
-//                                            .getValue(Double.class), user.child("longitude").getValue(Double.class))));
-//                                    allOtherLocations.add(new LatLng(user.child("latitude").getValue(Double.class), user.child("longitude").getValue(Double.class)));
-//                                }
-//
-//                                for (LatLng otherLocation : allOtherLocations)
-//                                {
-//                                    if (user.child("latitude").getValue(Double.class) == null || currentPosition == null) {
-//                                        break;
-//                                    }
-//
-//                                    userEmail = user.getKey();
-//                                    // Calculate distance and stuff
-//                                    double distance = getDistanceBetweenTwoPoints(currentPosition.latitude, currentPosition.longitude, otherLocation.latitude, otherLocation.longitude);
-//
-//                                    System.out.println("Distance between " + currentUser.getEmail() + " and " + userEmail + " is " + distance);
-//                                    // If distance closer or something, do stuff, play sound, whatever.
-//                                    if (distance < 100){
-//                                        Toast.makeText(getApplicationContext(), userEmail + " is close", Toast.LENGTH_LONG).show();
-//                                        Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//                                        vibe.vibrate(300);
-//                                    }
-//                                }
-//                            }
-//
-//                            // Do stuff with locations.
-//                        }
-//                    }).run();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        super.onStart();
     }
 
     private void drawOtherUsersPosition(List<LatLng> allOtherLocations)
@@ -414,15 +370,8 @@ public class Main2Activity extends AppCompatActivity
                     Log.d("drawn other users", "drawOtherUsersPosition: " + name);
                     System.out.println("location: " +latLng + " other users count " + allOtherLocations.size());
                 }
-
-
-
             }
-
-
-
         }
-
     }
 
     private void drawMyPosition(LatLng location,String userName)
@@ -442,15 +391,13 @@ public class Main2Activity extends AppCompatActivity
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(location.latitude, location.longitude))      // Sets the center of the map to location user
-                    .zoom(8)                   // Sets the zoom
-                    .bearing(90)                // Sets the orientation of the camera to east
-                    .tilt(40)                   // Sets the tilt of the camera to 30 degrees
+                    .zoom(10)                   // Sets the zoom
+                    .bearing(0)                 // Sets the orientation of the camera to east
+                    .tilt(60)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             System.out.println("location: I just drew myself at " +location);
-
         }
-
     }
 
     @Override
@@ -459,29 +406,16 @@ public class Main2Activity extends AppCompatActivity
         super.onStop();
     }
 
-//    public Double getDistanceBetweenTwoPoints(Double latitude1, Double longitude1, Double latitude2, Double longitude2){
-//        final int RADIUS_EARTH = 6371;
-//
-//        double dLatitude = getRad(latitude2 - latitude1);
-//        double dLongitude = getRad(longitude2 - longitude1);
-//
-//        double a = Math.sin(dLatitude / 2) * Math.sin(dLatitude / 2) + Math.cos(getRad(latitude1)) * Math.cos(getRad(latitude2)) * Math.sin(dLongitude / 2) * Math.sin(dLongitude / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//        return (RADIUS_EARTH * c) * 1000;
-//    }
-
-//    private Double getRad(double x) {
-//        return x * Math.PI / 180;
-//    }
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.getUiSettings().setZoomControlsEnabled(true);
         map.isBuildingsEnabled();
         map.getUiSettings().setIndoorLevelPickerEnabled(true);
-        //map.setMyLocationEnabled(true);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            map.setMyLocationEnabled(true);
+        }
         map.getUiSettings().setIndoorLevelPickerEnabled(true);
     }
 
@@ -545,16 +479,11 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -563,19 +492,12 @@ public class Main2Activity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentActivity fragment = null;
         Intent intent;
         if (id == R.id.nav_profile) {
             intent = new Intent(Main2Activity.this, Profile.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        } else if (id == R.id.nav_map) {
-//            Intent intent = new Intent(Main2Activity.this, MapsActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//            fragment = new MapsActivity();
         } else if (id == R.id.nav_logOut) {
             auth.signOut();
             intent = new Intent(this, LoginActivity.class);

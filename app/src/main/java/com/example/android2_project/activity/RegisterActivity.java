@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.android2_project.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Button register;
+    Uri photoUrl;
 
     //for getting users location
     private FusedLocationProviderClient fusedLocationClient;
@@ -115,6 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
         user[0].put("last", last.getText().toString());
         user[0].put("latitude",userLocation.getLatitude());
         user[0].put("longitude",userLocation.getLongitude());
+        user[0].put("photoUrl",photoUrl);
 
 
         //create user with email as document reference id

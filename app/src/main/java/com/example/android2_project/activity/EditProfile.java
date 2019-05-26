@@ -1,8 +1,10 @@
 package com.example.android2_project.activity;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -11,28 +13,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android2_project.R;
+import com.example.android2_project.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class EditProfile extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity implements View.OnClickListener {
 
     private TextView fullName,email,firstName,lastName;
     private TextView etfirstName,etlastName;
@@ -42,15 +50,38 @@ public class EditProfile extends AppCompatActivity {
     private FirebaseUser currentUser;
     String firstNameFS;
     String lastNameFS;
-    String emailFS;
     double Latitude;
     double Longitude;
+    // image upload
+    private static final int PICK_IMAGE_REQUEST = 234;
+    private Button buttonChoose;
+    private Button buttonUpload;
+    private Uri filePath;
+    private StorageReference storageReference;
+    private FirebaseStorage mDatabase;
+    private ImageView imageView;
+    //other stuff
+    String userFirstName;
+    String userLastName;
+    String uploadId;
+    TextView getURL;
     private static int RESULT_LOAD_IMAGE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+
+
+        buttonChoose = (Button) findViewById(R.id.btnChoose);
+        buttonUpload = (Button) findViewById(R.id.btnSave);
+        imageView = (ImageView) findViewById(R.id.imgProfile);
+        mDatabase = FirebaseStorage.getInstance();
+        storageReference = mDatabase.getReferenceFromUrl("gs://android2-project-6d7c0.appspot.com/");
+        buttonChoose.setOnClickListener(this);
+        buttonUpload.setOnClickListener(this);
 
         // get user data
         fullName = findViewById(R.id.tvFullName);
@@ -59,7 +90,6 @@ public class EditProfile extends AppCompatActivity {
         lastName = findViewById(R.id.resultLastName);
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-
 
         //get inserted date
         etfirstName = findViewById(R.id.resultFirstName);
@@ -74,77 +104,99 @@ public class EditProfile extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Log.d("got users email", "onSuccess: ");
                 getData();
-            }
-        });
-
-        Button buttonLoadImage = findViewById(R.id.tvEmail);
-        buttonLoadImage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                uploadData();
             }
         });
     }
+
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == buttonChoose) {
+            showFileChooser();
+        } else if (view == buttonUpload) {
+            uploadData();
+        }
+    }
+
+    public String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            ImageView imageView = (ImageView) findViewById(R.id.imgProfile);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void uploadImage() {
-
-        if(filePath != null)
-        {
+    private void uploadData() {
+        //checking if file is available
+        if (filePath != null) {
+            //displaying progress dialog while image is uploading
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
+            progressDialog.setTitle("Uploading");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-            ref.putFile(filePath)
+            //getting the storage reference
+            final StorageReference sRef = storageReference.child(Constants.STORAGE_PATH_UPLOADS + System.currentTimeMillis() + "." + getFileExtension(filePath));
+
+            //adding the file to reference
+            sRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //dismissing the progress dialog
                             progressDialog.dismiss();
-                            Toast.makeText(EditProfile.this, "Uploaded", Toast.LENGTH_SHORT).show();
+
+
+                            //displaying success toast
+                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+
+                            //creating the upload object to store uploaded image details
+                            //User upload = new User(userFirstName,userLastName,taskSnapshot.getDownloadUrl().toString());
+
+                            //adding an upload to firebase database
+                            uploadId = taskSnapshot.getDownloadUrl().toString();
+                            updateData();
+                            getData();
+
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure(@NonNull Exception exception) {
                             progressDialog.dismiss();
-                            Toast.makeText(EditProfile.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            //displaying the upload progress
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
                         }
                     });
+        } else {
+            //display an error if no file is selected
         }
     }
 
@@ -156,10 +208,8 @@ public class EditProfile extends AppCompatActivity {
                         if(documentSnapshot.exists()){
                             Latitude = documentSnapshot.getDouble("latitude");
                             Longitude = documentSnapshot.getDouble("longitude");
-                            emailFS = documentSnapshot.getString("email");
                             firstNameFS  = documentSnapshot.getString("first");
                             lastNameFS  = documentSnapshot.getString("last");
-                            email.setText(emailFS);
                             firstName.setText(firstNameFS);
                             lastName.setText(lastNameFS);
                             String result = firstNameFS + " " + lastNameFS;
@@ -175,26 +225,30 @@ public class EditProfile extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(EditProfile.this, "Coundn't find", Toast.LENGTH_SHORT).show();
-                        Log.d("BIGERROR", "onError: ");
+                        Log.d("Error", "onError: ");
                     }
                 });
     }
 
-    public void updateData(View view){
-        String userFirstName = etfirstName.getText().toString().trim();
-        String userLastName = etlastName.getText().toString().trim();
-        Map<String,Object> data = new HashMap<>();
-        data.put("latitude", Latitude);
-        data.put("longitude", Longitude);
-        data.put("first",userFirstName);
-        data.put("last",userLastName);
-        docRef.set(data);
+    public void updateData(){
+        userFirstName = etfirstName.getText().toString().trim();
+        userLastName = etlastName.getText().toString().trim();
+        final Map<String,Object> user = new HashMap<>();
+        user.put("photoUrl",uploadId);
+        user.put("latitude", Latitude);
+        user.put("longitude", Longitude);
+        user.put("first",userFirstName);
+        user.put("last",userLastName);
+        docRef.set(user);
+    }
+
+    public void onBackEvent(View view){
         Intent intent = new Intent(EditProfile.this, Profile.class);
         startActivity(intent);
     }
 
-    public void onBackEvent(View view){
-        Intent intent = new Intent(EditProfile.this, Main2Activity.class);
-        startActivity(intent);
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
