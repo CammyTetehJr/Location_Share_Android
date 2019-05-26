@@ -1,30 +1,22 @@
-package com.example.android2_project.model;
+package com.example.android2_project.activity;
 
-import android.location.Location;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android2_project.R;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class Profile extends AppCompatActivity {
 
@@ -97,5 +89,15 @@ public class Profile extends AppCompatActivity {
                     }
                 });
 
+   }
+
+   public void startEditProfile(View view){
+        Intent intent = new Intent(Profile.this, EditProfile.class);
+        startActivity(intent);
+   }
+
+   public void onBackEvent(View view){
+        Intent intent = new Intent(Profile.this, Main2Activity.class);
+        startActivity(intent);
    }
 }
