@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.android2_project.R;
 import com.example.android2_project.model.User;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,13 +33,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -64,6 +73,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     String userFirstName;
     String userLastName;
     String uploadId;
+    String photoUrl;
     TextView getURL;
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -72,6 +82,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
 
 
 
@@ -104,7 +115,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Log.d("got users email", "onSuccess: ");
                 getData();
-                uploadData();
+                //UpdatePhoto(imageView, photoUrl);
             }
         });
     }
@@ -214,6 +225,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                             lastName.setText(lastNameFS);
                             String result = firstNameFS + " " + lastNameFS;
                             fullName.setText(result);
+                            //UpdatePhoto(imageView, photoUrl);
                         }
                         else{
                             Toast.makeText(EditProfile.this, "Not found", Toast.LENGTH_SHORT).show();
@@ -252,3 +264,5 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
     }
 }
+
+

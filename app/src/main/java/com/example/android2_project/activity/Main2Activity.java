@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +61,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -117,6 +120,8 @@ public class Main2Activity extends AppCompatActivity
     String email;
     String firstNameFS;
     String lastNameFS;
+    String photoUrl;
+    ImageView image;
 
 
     @Override
@@ -149,6 +154,7 @@ public class Main2Activity extends AppCompatActivity
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Log.d("got users email", "onSuccess: ");
                 getData();
+                Picasso.get().load(photoUrl).into(image);
             }
         });
 
@@ -156,6 +162,7 @@ public class Main2Activity extends AppCompatActivity
         View navheaderView = navigationView.getHeaderView(0);
         fullName = navheaderView.findViewById(R.id.drawerName);
         tvemail = navheaderView.findViewById(R.id.drawerEmail);
+        image = navheaderView.findViewById(R.id.ivProfile);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -255,7 +262,7 @@ public class Main2Activity extends AppCompatActivity
                 {
                     List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
                     Log.d("", "onEvent: document snapshot" + documentSnapshots.size() + documentSnapshots);
-                    Log.d("at doc snapshop", "onEvent: username is" + userName);
+                    Log.d("at doc snapshop", "onEvent: username is" + userName + " photoUrl " + photoUrl);
                     for (DocumentSnapshot snapshot: documentSnapshots)
                     {
                         for (LatLng latLng : allOtherLocations) {
@@ -322,7 +329,8 @@ public class Main2Activity extends AppCompatActivity
                     Double Latitude = Double.valueOf(documentSnapshot.getDouble("latitude"));
                     Double Longitude = Double.valueOf(documentSnapshot.getDouble("longitude"));
                     userName = documentSnapshot.getString("first");
-                    Log.d("my username is" + userName, "onEvent: ");
+                    photoUrl = documentSnapshot.get("photoUrl").toString();
+                    Log.d("my username is " + userName + photoUrl, "onEvent: ");
 
                     LatLng latLng = new LatLng(Latitude,Longitude);
                     userLatLng = latLng;
