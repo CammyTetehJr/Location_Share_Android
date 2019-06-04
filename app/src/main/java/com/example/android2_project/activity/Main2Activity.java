@@ -139,7 +139,11 @@ public class Main2Activity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        auth = FirebaseAuth.getInstance();
+        if(FirebaseAuth.getInstance() != null)
+        {
+            auth = FirebaseAuth.getInstance();
+        }
+
         currentUser = auth.getCurrentUser();
 
         //initialize db

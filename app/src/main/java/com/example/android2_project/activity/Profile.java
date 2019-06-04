@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.Image;
 import android.media.session.MediaSession;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.UriLoader;
 import com.example.android2_project.R;
 import com.example.android2_project.model.User;
@@ -50,17 +52,21 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StreamDownloadTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.squareup.picasso.Picasso.*;
 
 public class Profile extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient googleApiClient;
     private TextView fullName,tvemail,firstName,lastName;
     private FirebaseFirestore mFirestore;
-    DocumentReference docRef;
+    static DocumentReference docRef;
     private FirebaseAuth auth;
     private StorageReference storageReference;
     private FirebaseStorage mDatabase;
@@ -71,7 +77,7 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
     ImageView profileImage;
     String email;
     String getPhoto;
-    String photoUrl;
+    static String photoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,8 +190,15 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
                 }
                 if (documentSnapshot.exists())
                 {
-                    photoUrl = documentSnapshot.get("photoUrl").toString();
-                    Log.d("URL WAS FOUND HERE!!!! " + photoUrl, "onEvent: ");
+                    if(documentSnapshot.get("photoUrl") != null)
+                    {
+                        photoUrl = documentSnapshot.get("photoUrl").toString();
+                        Log.d("URL WAS FOUND HERE!!!! " + photoUrl, "onEvent: ");
+                        Glide.with(getApplicationContext()).load(photoUrl).into(profileImage);
+
+
+                    }
+
                 }
             }
         });

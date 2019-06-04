@@ -305,24 +305,6 @@ public class LoginActivity extends AppCompatActivity {
              }
 
 
-//        @Override
-//        protected void onPostExecute(final Boolean success) {
-//            mAuthTask = null;
-//            showProgress(false);
-//
-//            if (success == true) {
-//                //go to maps view
-//                goToMapsView();
-//                finish();
-//            } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mPasswordView.requestFocus();
-//                //go to register view
-//                goToRegisterView();
-//            }
-//        }
-
-
 
 
         @Override
