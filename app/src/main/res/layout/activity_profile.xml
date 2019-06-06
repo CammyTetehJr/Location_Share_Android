@@ -47,11 +47,10 @@
         android:layout_marginRight="-100dp"
         android:layout_marginBottom="-100dp" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgProfile"
+    <ImageView
+        android:id="@+id/ivUserImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/ic_user"
         android:layout_above="@+id/tvFullName"
         android:layout_centerHorizontal="true" />
 

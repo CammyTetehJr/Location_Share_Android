@@ -154,7 +154,9 @@ public class Main2Activity extends AppCompatActivity
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Log.d("got users email", "onSuccess: ");
                 getData();
-                Picasso.get().load(photoUrl).into(image);
+                Picasso.get()
+                        .load(photoUrl)
+                        .into(image);
             }
         });
 
@@ -191,6 +193,7 @@ public class Main2Activity extends AppCompatActivity
                     // Update UI with location data
                     // ...
                     //update db with new location
+                    notified = false;
                     Map<String, Object> data = new HashMap<>();
                     data.put("latitude", location.getLatitude());
                     data.put("longitude",location.getLongitude());
@@ -262,10 +265,9 @@ public class Main2Activity extends AppCompatActivity
                 {
                     List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
                     Log.d("", "onEvent: document snapshot" + documentSnapshots.size() + documentSnapshots);
-                    Log.d("at doc snapshop", "onEvent: username is" + userName + " photoUrl " + photoUrl);
+//                    Log.d("at doc snapshop", "onEvent: username is" + userName + " photoUrl " + photoUrl);
                     for (DocumentSnapshot snapshot: documentSnapshots)
                     {
-                        for (LatLng latLng : allOtherLocations) {
                         if (snapshot.getDouble("latitude") != null && snapshot.getDouble("longitude") != null )
                         {
                             double Latitude = snapshot.getDouble("latitude");
@@ -279,26 +281,28 @@ public class Main2Activity extends AppCompatActivity
                                 name = "My Location";
                             }
 
-                                latLng = new LatLng(Latitude, Longitude);
+                                LatLng latLng = new LatLng(Latitude, Longitude);
                                 DecimalFormat f = new DecimalFormat("##.00");
                                 double distance = Double.parseDouble(f.format(getDistanceBetweenTwoPoints(userLatLng.latitude, userLatLng.longitude, latLng.latitude, latLng.longitude) / 1000));
                                 //alert if close
+                            if(!(name == "My Location") && !notified){
                                 alertProximity(distance, name);
-
+                                notified = true;
+                            }
                                 allOtherLocations.add(latLng);
                                 otherUsersName.add(name + " " + distance + " km away");
                                 drawOtherUsersPosition(allOtherLocations);
                             }
-                        }
+
                     }
                 }
             }
         });
     }
-
+    private boolean notified = false;
     private void alertProximity(double distance, String name)
     {
-        if (distance < 100) {
+        if (distance*1000 < 100) {
             Toast.makeText(getApplicationContext(), name + " is close", Toast.LENGTH_LONG).show();
             Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             vibe.vibrate(300);
@@ -329,7 +333,9 @@ public class Main2Activity extends AppCompatActivity
                     Double Latitude = Double.valueOf(documentSnapshot.getDouble("latitude"));
                     Double Longitude = Double.valueOf(documentSnapshot.getDouble("longitude"));
                     userName = documentSnapshot.getString("first");
-                    photoUrl = documentSnapshot.get("photoUrl").toString();
+//                    if(photoUrl != null){
+                        photoUrl = documentSnapshot.get("photoUrl").toString();
+//                    }
                     Log.d("my username is " + userName + photoUrl, "onEvent: ");
 
                     LatLng latLng = new LatLng(Latitude,Longitude);
@@ -377,6 +383,7 @@ public class Main2Activity extends AppCompatActivity
                     count++;
                     Log.d("drawn other users", "drawOtherUsersPosition: " + name);
                     System.out.println("location: " +latLng + " other users count " + allOtherLocations.size());
+
                 }
             }
         }
