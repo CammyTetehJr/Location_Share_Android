@@ -44,7 +44,6 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
 
 
-
     //library
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
@@ -53,6 +52,11 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.facebook.android:facebook-login:[5,6)'
 }
+
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
 //
 //buildscript {
 //    dependencies {
@@ -61,24 +65,25 @@ dependencies {
 //}
 
 
-allprojects {
-    repositories {
-        //start here
-        configurations.all {
-            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                def requested = details.requested
-                if (requested.group == 'com.google.android.gms') {
-                    details.useVersion '12.0.1'
-                }
-                if (requested.group == 'com.google.firebase') {
-                    details.useVersion '12.0.1'
+    allprojects {
+        repositories {
+            //start here
+            configurations.all {
+                resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                    def requested = details.requested
+                    if (requested.group == 'com.google.android.gms') {
+                        details.useVersion '12.0.1'
+                    }
+                    if (requested.group == 'com.google.firebase') {
+                        details.useVersion '12.0.1'
+                    }
                 }
             }
-        }
-        //end
-        jcenter()
-        maven {
-            url "https://maven.google.com"
+            //end
+            jcenter()
+            maven {
+                url "https://maven.google.com"
+            }
         }
     }
 }

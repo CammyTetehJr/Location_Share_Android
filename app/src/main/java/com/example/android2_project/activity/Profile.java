@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.Image;
 import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Vibrator;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.UriLoader;
 import com.example.android2_project.R;
 import com.example.android2_project.model.User;
@@ -66,12 +68,18 @@ import com.google.firebase.storage.StreamDownloadTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+<<<<<<< HEAD
 import java.text.DecimalFormat;
+=======
+import java.io.File;
+>>>>>>> master
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.squareup.picasso.Picasso.*;
 
 public class Profile extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -84,7 +92,7 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
     private GoogleApiClient googleApiClient;
     private TextView fullName, tvemail, firstName, lastName;
     private FirebaseFirestore mFirestore;
-    DocumentReference docRef;
+    static DocumentReference docRef;
     private FirebaseAuth auth;
 
     private FirebaseUser currentUser;
@@ -92,7 +100,12 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
     String lastNameFS;
     ImageView profileImage;
     String email;
+<<<<<<< HEAD
     String photoUrl;
+=======
+    String getPhoto;
+    static String photoUrl;
+>>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,8 +222,19 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
                 }
                 if (documentSnapshot.exists())
                 {
+<<<<<<< HEAD
                     photoUrl = documentSnapshot.get("photoUrl").toString();
                     Log.d("substracted", "onEvent: Here we go" + " photoUrl " + photoUrl);
+=======
+                    if(documentSnapshot.get("photoUrl") != null)
+                    {
+                        photoUrl = documentSnapshot.get("photoUrl").toString();
+                        Log.d("URL WAS FOUND HERE!!!! " + photoUrl, "onEvent: ");
+                        Glide.with(getApplicationContext()).load(photoUrl).into(profileImage);
+
+
+                    }
+>>>>>>> master
 
                 }
             }

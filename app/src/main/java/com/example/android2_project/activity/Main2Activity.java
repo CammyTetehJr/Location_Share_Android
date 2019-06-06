@@ -116,7 +116,7 @@ public class Main2Activity extends AppCompatActivity
     private Marker otherMarker;
 
     // for getting data in navigation drawer
-    private TextView fullName,tvemail,firstName,lastName;
+    private TextView fullName, tvemail, firstName, lastName;
     String email;
     String firstNameFS;
     String lastNameFS;
@@ -139,7 +139,11 @@ public class Main2Activity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        auth = FirebaseAuth.getInstance();
+        if(FirebaseAuth.getInstance() != null)
+        {
+            auth = FirebaseAuth.getInstance();
+        }
+
         currentUser = auth.getCurrentUser();
 
         //initialize db
@@ -196,26 +200,25 @@ public class Main2Activity extends AppCompatActivity
                     notified = false;
                     Map<String, Object> data = new HashMap<>();
                     data.put("latitude", location.getLatitude());
-                    data.put("longitude",location.getLongitude());
+                    data.put("longitude", location.getLongitude());
                     docRef.set(data, SetOptions.merge());
                 }
             }
         };
     }
 
-    public void getData(){
+    public void getData() {
         docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists()){
-                            firstNameFS  = documentSnapshot.getString("first");
-                            lastNameFS  = documentSnapshot.getString("last");
+                        if (documentSnapshot.exists()) {
+                            firstNameFS = documentSnapshot.getString("first");
+                            lastNameFS = documentSnapshot.getString("last");
                             tvemail.setText(email);
                             String result = firstNameFS + " " + lastNameFS;
                             fullName.setText(result);
-                        }
-                        else{
+                        } else {
                             Toast.makeText(Main2Activity.this, "Not found", Toast.LENGTH_SHORT).show();
                             Log.d("error", "onError: ");
                         }
@@ -231,8 +234,7 @@ public class Main2Activity extends AppCompatActivity
 
     }
 
-    private void initializeCollectionOfUsers()
-    {
+    private void initializeCollectionOfUsers() {
         db.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -249,8 +251,8 @@ public class Main2Activity extends AppCompatActivity
                 });
     }
 
-    private void listenToOtherUsers()
-    {
+    private boolean alreadyDisplayedNotification;
+    private void listenToOtherUsers() {
         initializeCollectionOfUsers();
         db.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -261,65 +263,57 @@ public class Main2Activity extends AppCompatActivity
                     Log.w("listen to other users", "Listen failed.", e);
                     return;
                 }
-                if (!queryDocumentSnapshots.isEmpty())
-                {
+                if (!queryDocumentSnapshots.isEmpty()) {
                     List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
                     Log.d("", "onEvent: document snapshot" + documentSnapshots.size() + documentSnapshots);
-//                    Log.d("at doc snapshop", "onEvent: username is" + userName + " photoUrl " + photoUrl);
-                    for (DocumentSnapshot snapshot: documentSnapshots)
-                    {
-                        if (snapshot.getDouble("latitude") != null && snapshot.getDouble("longitude") != null )
-                        {
+                    Log.d("at doc snapshop", "onEvent: username is" + userName + " photoUrl " + photoUrl);
+                    for (DocumentSnapshot snapshot : documentSnapshots) {
+                        if (snapshot.getDouble("latitude") != null && snapshot.getDouble("longitude") != null) {
                             double Latitude = snapshot.getDouble("latitude");
                             Log.d("", "onEvent: document snapshot" + Latitude);
                             double Longitude = snapshot.getDouble("longitude");
                             Log.d("", "onEvent: document snapshot" + Longitude);
 
                             String name = snapshot.getString("first");
-                            if(name.equals(userName))
-                            {
+                            if (name.equals(userName)) {
                                 name = "My Location";
                             }
 
-                                LatLng latLng = new LatLng(Latitude, Longitude);
+                                latLng = new LatLng(Latitude, Longitude);
                                 DecimalFormat f = new DecimalFormat("##.00");
                                 double distance = Double.parseDouble(f.format(getDistanceBetweenTwoPoints(userLatLng.latitude, userLatLng.longitude, latLng.latitude, latLng.longitude) / 1000));
                                 //alert if close
-                            if(!(name == "My Location") && !notified){
                                 alertProximity(distance, name);
-                                notified = true;
-                            }
+
                                 allOtherLocations.add(latLng);
                                 otherUsersName.add(name + " " + distance + " km away");
                                 drawOtherUsersPosition(allOtherLocations);
                             }
-
+                        }
                     }
                 }
             }
         });
     }
-    private boolean notified = false;
+
     private void alertProximity(double distance, String name)
     {
-        if (distance*1000 < 100) {
+        if (distance < 100) {
             Toast.makeText(getApplicationContext(), name + " is close", Toast.LENGTH_LONG).show();
             Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             vibe.vibrate(300);
         }
     }
 
-    private float getDistanceBetweenTwoPoints(double lat1,double lon1,double lat2,double lon2)
-    {
+    private float getDistanceBetweenTwoPoints(double lat1, double lon1, double lat2, double lon2) {
         float[] distance = new float[2];
-        Location.distanceBetween( lat1, lon1,
+        Location.distanceBetween(lat1, lon1,
                 lat2, lon2, distance);
         return distance[0];
     }
 
 
-    private void listenToMe()
-    {
+    private void listenToMe() {
         //listener for my position
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -328,24 +322,20 @@ public class Main2Activity extends AppCompatActivity
                     Log.w("onStart", "Listen failed.", e);
                     return;
                 }
-                if (documentSnapshot.exists())
-                {
+                if (documentSnapshot.exists()) {
                     Double Latitude = Double.valueOf(documentSnapshot.getDouble("latitude"));
                     Double Longitude = Double.valueOf(documentSnapshot.getDouble("longitude"));
                     userName = documentSnapshot.getString("first");
-//                    if(photoUrl != null){
-                        photoUrl = documentSnapshot.get("photoUrl").toString();
-//                    }
+                    photoUrl = documentSnapshot.get("photoUrl").toString();
                     Log.d("my username is " + userName + photoUrl, "onEvent: ");
 
-                    LatLng latLng = new LatLng(Latitude,Longitude);
+                    LatLng latLng = new LatLng(Latitude, Longitude);
                     userLatLng = latLng;
                     myLocation = new Location("myLocation");
                     myLocation.setLatitude(Latitude);
                     myLocation.setLongitude(Longitude);
                     //draw new position
-                    drawMyPosition(latLng,userName);
-
+                    drawMyPosition(latLng, userName);
                 }
             }
         });
@@ -362,35 +352,31 @@ public class Main2Activity extends AppCompatActivity
         listenToOtherUsers();
     }
 
-    private void drawOtherUsersPosition(List<LatLng> allOtherLocations)
-    {
+    private void drawOtherUsersPosition(List<LatLng> allOtherLocations) {
         map.clear();
         int count = 0;
-        for (LatLng latLng: allOtherLocations)
-        {
+       // alreadyDisplayedNotification = false;
+        for (LatLng latLng : allOtherLocations) {
             if (latLng != null) {
                 // Logic to handle location object
                 LatLng userLocation = latLng;
                 // Add a marker in User Location and move the camera
                 String name = otherUsersName.get(count);
-                if(name != userName)
-                {
+                if (name != userName) {
                     otherMarker = map.addMarker(new MarkerOptions()
-                            .position(new LatLng(userLocation.latitude,userLocation.longitude))
+                            .position(new LatLng(userLocation.latitude, userLocation.longitude))
                             .title(name)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                     otherMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                     count++;
                     Log.d("drawn other users", "drawOtherUsersPosition: " + name);
                     System.out.println("location: " +latLng + " other users count " + allOtherLocations.size());
-
                 }
             }
         }
     }
 
-    private void drawMyPosition(LatLng location,String userName)
-    {
+    private void drawMyPosition(LatLng location, String userName) {
         map.clear();
         if (location != null) {
             // Logic to handle location object
@@ -411,12 +397,12 @@ public class Main2Activity extends AppCompatActivity
                     .tilt(60)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            System.out.println("location: I just drew myself at " +location);
+            System.out.println("location: I just drew myself at " + location);
         }
     }
 
     @Override
-    protected  void onStop() {
+    protected void onStop() {
         googleApiClient.disconnect();
         super.onStop();
     }
@@ -437,9 +423,8 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.requestLocationUpdates( locationRequest,locationCallback, this.getMainLooper());
-        }
-        else {
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, this.getMainLooper());
+        } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MAP_PERMISSION);
         }
     }
@@ -456,7 +441,7 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(final Location location) {
-        Log.d("location" , " location changed");
+        Log.d("location", " location changed");
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             new Thread(new Runnable() {
                 @Override
@@ -465,15 +450,15 @@ public class Main2Activity extends AppCompatActivity
 //                    longitudeRef.setValue(location.getLongitude());
                     Map<String, Object> data = new HashMap<>();
                     data.put("latitude", location.getLatitude());
-                    data.put("longitude",location.getLongitude());
+                    data.put("longitude", location.getLongitude());
                     docRef.set(data, SetOptions.merge());
                 }
             }).start();
-        }
-        else {
+        } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MAP_PERMISSION);
         }
     }
+
     // menu code
     @Override
     public void onBackPressed() {
