@@ -68,11 +68,8 @@ import com.google.firebase.storage.StreamDownloadTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-<<<<<<< HEAD
 import java.text.DecimalFormat;
-=======
 import java.io.File;
->>>>>>> master
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,12 +97,8 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
     String lastNameFS;
     ImageView profileImage;
     String email;
-<<<<<<< HEAD
-    String photoUrl;
-=======
     String getPhoto;
     static String photoUrl;
->>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +124,7 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
         this.mFirestore = FirebaseFirestore.getInstance();
         email = currentUser.getEmail();
 
+        Glide.with(this).load(photoUrl).into(profileImage);
         //gets reference to user's document
         docRef = mFirestore.collection("users").document(email);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -139,9 +133,10 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
                 Log.d("got users email", "onSuccess: ");
                 getData();
                 getPhotoUrl();
-                Picasso.get()
-                        .load("https://firebasestorage.googleapis.com/v0/b/android2-project-6d7c0.appspot.com/o/uploads%2F1559418382220.jpg?alt=media&token=6fb1c81f-e87d-49c0-b5d1-2f14481f4d85")
-                        .into(profileImage);
+//                Picasso.get()
+//                        .load("https://firebasestorage.googleapis.com/v0/b/android2-project-6d7c0.appspot.com/o/uploads%2F1559418382220.jpg?alt=media&token=6fb1c81f-e87d-49c0-b5d1-2f14481f4d85")
+//                        .into(profileImage);
+
             }
         });
 
@@ -222,10 +217,6 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
                 }
                 if (documentSnapshot.exists())
                 {
-<<<<<<< HEAD
-                    photoUrl = documentSnapshot.get("photoUrl").toString();
-                    Log.d("substracted", "onEvent: Here we go" + " photoUrl " + photoUrl);
-=======
                     if(documentSnapshot.get("photoUrl") != null)
                     {
                         photoUrl = documentSnapshot.get("photoUrl").toString();
@@ -234,8 +225,6 @@ public class Profile extends AppCompatActivity implements GoogleApiClient.Connec
 
 
                     }
->>>>>>> master
-
                 }
             }
         });

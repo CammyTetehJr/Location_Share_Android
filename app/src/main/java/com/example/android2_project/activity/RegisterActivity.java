@@ -116,9 +116,9 @@ public class RegisterActivity extends AppCompatActivity {
         final Map<String, Object>[] user = new Map[]{new HashMap<>()};
         user[0].put("first", first.getText().toString());
         user[0].put("last", last.getText().toString());
-        user[0].put("latitude",userLocation.getLatitude());
-        user[0].put("longitude",userLocation.getLongitude());
-        user[0].put("photoUrl",photoUrl);
+        user[0].put("latitude", userLocation.getLatitude());
+        user[0].put("longitude", userLocation.getLongitude());
+        user[0].put("photoUrl", photoUrl);
 
 
         //create user with email as document reference id
@@ -138,7 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
                 });
 
 
-
         //create auth user
         mAuth = FirebaseAuth.getInstance();
 
@@ -150,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("user status", "createUserWithEmail:success");
-                            FirebaseUser user= mAuth.getCurrentUser();
+                            FirebaseUser user = mAuth.getCurrentUser();
                             //go to maps activity
                             goToMapsView();
                             finish();
@@ -164,15 +163,12 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-        private void goToMapsView()
-        {
-            Intent intent = new Intent(RegisterActivity.this, Main2Activity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-
-
+    private void goToMapsView() {
+        Intent intent = new Intent(RegisterActivity.this, Main2Activity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
+}
 
 
